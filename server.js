@@ -61,24 +61,9 @@ app.post('/posts', (req, res) => {
         res.status(500).json({error: 'Something went wrong'});
     });
 
-});
+});*/
 
-
-app.delete('/posts/:id', (req, res) => {
-  BlogPost
-    .findByIdAndRemove(req.params.id)
-    .exec()
-    .then(() => {
-      res.status(204).json({message: 'success'});
-    })
-    .catch(err => {
-      console.error(err);
-      res.status(500).json({error: 'something went terribly wrong'});
-    });
-});
-
-
-app.put('/posts/:id', (req, res) => {
+/*app.put('/posts/:id', (req, res) => {
   if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
     res.status(400).json({
       error: 'Request path id and request body id values must match'
@@ -93,24 +78,36 @@ app.put('/posts/:id', (req, res) => {
     }
   });
 
-  BlogPost
+  Workout
     .findByIdAndUpdate(req.params.id, {$set: updated}, {new: true})
     .exec()
     .then(updatedPost => res.status(201).json(updatedPost.apiRepr()))
     .catch(err => res.status(500).json({message: 'Something went wrong'}));
 });
-
-
-app.delete('/:id', (req, res) => {
-  BlogPosts
+*/
+app.delete('/workouts/:id', (req, res) => {
+  Workouts
     .findByIdAndRemove(req.params.id)
     .exec()
     .then(() => {
-      console.log(`Deleted blog post with id \`${req.params.ID}\``);
+      res.status(204).json({message: 'success'});
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({error: 'something went terribly wrong'});
+    });
+});
+
+app.delete('workouts/:id', (req, res) => {
+  Workouts
+    .findByIdAndRemove(req.params.id)
+    .exec()
+    .then(() => {
+      console.log(`Deleted workout with id \`${req.params.ID}\``);
       res.status(204).end();
     });
 });
-*/
+
 
 app.use('*', function(req, res) {
   res.status(404).json({message: 'Not Found'});

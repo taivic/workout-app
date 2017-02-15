@@ -15,7 +15,7 @@ describe('Workouts', function() {
 
   it('should list items on GET', function() {
     return chai.request(app)
-      .get('/exercises')
+      .get('/workouts')
       .then(function(res) {
         res.should.have.status(200);
         res.should.be.json;
@@ -42,7 +42,7 @@ describe('Workouts', function() {
       }]
     };
     return chai.request(app)
-      .post('/posts')
+      .post('/workouts')
       .send(newItem)
       .then(function(res) {
         res.should.have.status(201);
@@ -67,11 +67,11 @@ describe('Workouts', function() {
       }]
     };
     return chai.request(app)
-      .get('/posts')
+      .get('/workouts')
       .then(function(res) {
         updateData.id = res.body[0].id; //need to fix res.body[last item]
         return chai.request(app)
-          .put(`/posts/${updateData.id}`)
+          .put(`/workouts/${updateData.id}`)
           .send(updateData);
       })
       .then(function(res) {
@@ -84,10 +84,10 @@ describe('Workouts', function() {
 
   it('should delete items on DELETE', function() {
     return chai.request(app)
-      .get('/posts')
+      .get('/workouts')
       .then(function(res) {
         return chai.request(app)
-          .delete(`/posts/${res.body[0].id}`); //need to fix res.body[last item]
+          .delete(`/workouts/${res.body[0].id}`); //need to fix res.body[last item]
       })
       .then(function(res) {
         res.should.have.status(204);
