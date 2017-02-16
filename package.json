@@ -1,7 +1,7 @@
 {
   "name": "workout-app",
   "version": "1.0.0",
-  "description": "",
+  "description": "Workout Tracking App",
   "main": "server.js",
   "directories": {
     "test": "test"
@@ -11,7 +11,7 @@
     "start": "node server.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Vic Tai",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.16.1",
