@@ -4,21 +4,21 @@ const workoutSchema = mongoose.Schema({
   Name: {type: String, required: true},
   Category: {type: String, required: true},
   Description: {type: String},
-  setsReps: {type: String},
+  SetsReps: {type: String},
   Progress: [{
-    Last Date: {type: Date},
+    LastDate: {type: Date},
     Weight: {type: String},
-    Notes: {String}
+    Notes: {type: String}
   }]
 });
 
-blogPostSchema.methods.apiRepr = function() {
+workoutSchema.methods.apiRepr = function() {
   return {
     id: this._id,
     name: this.Name,
-    category: this.category,
-    Description: this.description
-    setsReps: this.setsReps,
+    category: this.Category,
+    description: this.Description,
+    setsReps: this.SetsReps,
   };
 }
 

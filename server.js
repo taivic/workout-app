@@ -1,5 +1,7 @@
-const bodyParser = require('body-parser');
+"use strict";
+
 const express = require('express');
+const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 
@@ -12,7 +14,6 @@ app.use(morgan('common'));
 app.use(bodyParser.json());
 
 mongoose.Promise = global.Promise;
-
 
 app.get('/workouts', (req, res) => {
   Workouts
@@ -51,9 +52,9 @@ app.post('/workouts', (req, res) => {
 
   Workouts
     .create({
-      title: req.body.title,
-      content: req.body.content,
-      author: req.body.author
+      name: req.body.name,
+      category: req.body.category,
+      description: req.body.description
     })
     .then(workout => res.status(201).json(workout.apiRepr()))
     .catch(err => {
@@ -97,17 +98,6 @@ app.delete('/workouts/:id', (req, res) => {
       res.status(500).json({error: 'something went terribly wrong'});
     });
 });
-
-app.delete('workouts/:id', (req, res) => {
-  Workouts
-    .findByIdAndRemove(req.params.id)
-    .exec()
-    .then(() => {
-      console.log(`Deleted workout with id \`${req.params.ID}\``);
-      res.status(204).end();
-    });
-});
-
 
 app.use('*', function(req, res) {
   res.status(404).json({message: 'Not Found'});
