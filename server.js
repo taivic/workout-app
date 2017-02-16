@@ -14,8 +14,8 @@ app.use(bodyParser.json());
 mongoose.Promise = global.Promise;
 
 
-/*app.get('/posts', (req, res) => {
-  BlogPost
+app.get('/workouts', (req, res) => {
+  Workouts
     .find()
     .exec()
     .then(posts => {
@@ -27,8 +27,8 @@ mongoose.Promise = global.Promise;
     });
 });
 
-app.get('/posts/:id', (req, res) => {
-  BlogPost
+app.get('/workouts/:id', (req, res) => {
+  Workouts
     .findById(req.params.id)
     .exec()
     .then(post => res.json(post.apiRepr()))
@@ -38,8 +38,8 @@ app.get('/posts/:id', (req, res) => {
     });
 });
 
-app.post('/posts', (req, res) => {
-  const requiredFields = ['title', 'content', 'author'];
+app.post('/workouts', (req, res) => {
+  const requiredFields = ['Name', 'Category', 'Description', 'SetsReps', 'Progress'];
   for (let i=0; i<requiredFields.length; i++) {
     const field = requiredFields[i];
     if (!(field in req.body)) {
@@ -49,21 +49,21 @@ app.post('/posts', (req, res) => {
     }
   }
 
-  BlogPost
+  Workouts
     .create({
       title: req.body.title,
       content: req.body.content,
       author: req.body.author
     })
-    .then(blogPost => res.status(201).json(blogPost.apiRepr()))
+    .then(workout => res.status(201).json(workout.apiRepr()))
     .catch(err => {
         console.error(err);
         res.status(500).json({error: 'Something went wrong'});
     });
 
-});*/
+});
 
-/*app.put('/posts/:id', (req, res) => {
+app.put('/workouts/:id', (req, res) => {
   if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
     res.status(400).json({
       error: 'Request path id and request body id values must match'
@@ -71,20 +71,20 @@ app.post('/posts', (req, res) => {
   }
 
   const updated = {};
-  const updateableFields = ['title', 'content', 'author'];
+  const updateableFields = ['Progress'];
   updateableFields.forEach(field => {
     if (field in req.body) {
       updated[field] = req.body[field];
     }
   });
 
-  Workout
+  Workouts
     .findByIdAndUpdate(req.params.id, {$set: updated}, {new: true})
     .exec()
     .then(updatedPost => res.status(201).json(updatedPost.apiRepr()))
     .catch(err => res.status(500).json({message: 'Something went wrong'}));
 });
-*/
+
 app.delete('/workouts/:id', (req, res) => {
   Workouts
     .findByIdAndRemove(req.params.id)

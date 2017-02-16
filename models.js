@@ -1,29 +1,26 @@
 const mongoose = require('mongoose');
 
-/*const workoutSchema = mongoose.Schema({
-  author: {
-    firstName: String,
-    lastName: String
-  },
-  title: {type: String, required: true},
-  content: {type: String},
-  created: {type: Date, default: Date.now}
-});
-
-
-blogPostSchema.virtual('authorName').get(function() {
-  return `${this.author.firstName} ${this.author.lastName}`.trim();
+const workoutSchema = mongoose.Schema({
+  Name: {type: String, required: true},
+  Category: {type: String, required: true},
+  Description: {type: String},
+  setsReps: {type: String},
+  Progress: [{
+    Last Date: {type: Date},
+    Weight: {type: String},
+    Notes: {String}
+  }]
 });
 
 blogPostSchema.methods.apiRepr = function() {
   return {
     id: this._id,
-    author: this.authorName,
-    content: this.content,
-    title: this.title,
-    created: this.created
+    name: this.Name,
+    category: this.category,
+    Description: this.description
+    setsReps: this.setsReps,
   };
-}*/
+}
 
 const Workouts = mongoose.model('Workouts', workoutSchema);
 
