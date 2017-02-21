@@ -14,7 +14,16 @@ $(document).ready(function() {
     $("#workoutList").append("<a><li class='workoutName text-info'>" + 
       name + "</li></a>");
 
-    var newWorkout = new workout(name, category, setsReps, lastDate, weight, notes);
+    var Workout = function(name, category, setsReps, lastDate, weight, notes) {
+    	this.name = name;
+    	this.category = category;
+    	this.setsReps = setsReps;
+    	this.lastDate = lastDate;
+    	this.weight = weight;
+    	this.notes = notes;
+    }
+
+    var newWorkout = new Workout(name, category, setsReps, lastDate, weight, notes);
     workouts.push(newWorkout);
 
     resetForm();
