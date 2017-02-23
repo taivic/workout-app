@@ -21,8 +21,9 @@ describe('Workouts', function() {
         res.should.be.json;
         res.body.should.be.a('array');
         res.body.length.should.be.at.least(1);
-        const expectedKeys = ['name', 'category', 'description', 'sets and reps', 'progress'];
+        const expectedKeys = ['id', 'name', 'category', 'setsReps'];
         res.body.forEach(function(item) {
+          console.log(item);
           item.should.be.a('object');
           item.should.include.keys(expectedKeys);
         });
@@ -33,13 +34,7 @@ describe('Workouts', function() {
     const newItem = {
       name: 'Burpees',
       category: 'Total Body',
-      description: 'Stand up, jump down and do a pushup, tuck your legs in, then explode upwards. Repeat.',
       setsReps: '3 Sets of 4',
-      Progress: [{
-        lastDate: 'Monday, Feb 13th', 
-        Weight: 'None', 
-        Notes: 'First try, it was hard.'
-      }]
     };
     return chai.request(app)
       .post('/workouts')
@@ -48,7 +43,7 @@ describe('Workouts', function() {
         res.should.have.status(201);
         res.should.be.json;
         res.body.should.be.a('object');
-        res.body.should.include.keys('name', 'category', 'description', 'sets and reps', 'progress');
+        res.body.should.include.keys('name', 'category', 'setsReps', 'progress');
         res.body.id.should.not.be.null;
         res.body.should.deep.equal(Object.assign(newItem, {id: res.body.id}));
       });
@@ -56,20 +51,14 @@ describe('Workouts', function() {
 
   it('should update items on PUT', function() {
     const updateData = {
-      name: 'Burpees',
-      category: 'Total Body',
-      description: 'Stand up, jump down and do a pushup, tuck your legs in, then explode upwards. Repeat.',
-      setsReps: '3 Sets of 4',
-      Progress: [{
-        lastDate: 'Wednesday, Feb 15th', 
-        Weight: 'None', 
-        Notes: 'Second try, it was a lot easier than the first. Might up some reps next time.'
-      }]
+      name: 'Military Press',
+      category: 'Shoulder',
+      setsReps: '4 sets of 10 reps',
     };
     return chai.request(app)
       .get('/workouts')
       .then(function(res) {
-        updateData.id = res.body[0].id; //need to fix res.body[last item]
+        updateData.id = res.body[1].id;
         return chai.request(app)
           .put(`/workouts/${updateData.id}`)
           .send(updateData);
@@ -87,7 +76,7 @@ describe('Workouts', function() {
       .get('/workouts')
       .then(function(res) {
         return chai.request(app)
-          .delete(`/workouts/${res.body[0].id}`); //need to fix res.body[last item]
+          .delete(`/workouts/${res.body[0].id}`);
       })
       .then(function(res) {
         res.should.have.status(204);

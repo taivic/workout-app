@@ -1,100 +1,100 @@
 {
-  "Name": "Bench Press",
-  "Category": "Upper Body",
-  "SetsReps": "4 sets of 5 reps",
-  "Progress": [{
-    "Last date": "Date",
-    "Weight": "String",
-    "Notes": "String"
-  }]
-},
-{
-  "Name": "Military Press",
-  "Category": "Upper Body",
-  "SetsReps": "4 sets of 8 reps",
-  "Progress": [{
-    "Last date": "Date",
-    "Weight": "String",
-    "Notes": "String"
+  "name": "Bench Press",
+  "category": "Upper Body",
+  "setsReps": "4 sets of 5 reps",
+  "progress": [{
+    "lastDate": "Date",
+    "weight": "String",
+    "notes": "String"
   }]
 }
 {
-  "Name": "Dumbell Flys",
-  "Category": "Chest",
-  "SetsReps": "3 sets of 10 reps",
-  "Progress": [{
-    "Last date": "Date",
-    "Weight": "String",
-    "Notes": "String"
+  "name": "Military Press",
+  "category": "Upper Body",
+  "setsReps": "4 sets of 8 reps",
+  "progress": [{
+    "lastDate": "Date",
+    "weight": "String",
+    "notes": "String"
   }]
 }
 {
-  "Name": "Hammer Curls",
-  "Category": "Arms",
-  "SetsReps": "3 sets of 10 reps",
-  "Progress": [{
-    "Last date": "Date",
-    "Weight": "String",
-    "Notes": "String"
+  "name": "Dumbell Flys",
+  "category": "Chest",
+  "setsReps": "3 sets of 10 reps",
+  "progress": [{
+    "lastDate": "Date",
+    "weight": "String",
+    "notes": "String"
   }]
 }
 {
-  "Name": "Crunches",
-  "Category": "Core",
-  "SetsReps": "3 sets of 30",
-  "Progress": [{
-    "Last date": "Date",
-    "Weight": "String",
-    "Notes": "String"
+  "name": "Hammer Curls",
+  "category": "Arms",
+  "setsReps": "3 sets of 10 reps",
+  "progress": [{
+    "lastDate": "Date",
+    "weight": "String",
+    "notes": "String"
   }]
 }
 {
-  "Name": "Barbell Squat",
-  "Category": "Lower Body",
-  "SetsReps": "4 sets of 5 reps",
-  "Progress": [{
-    "Last date": "Date",
-    "Weight": "String",
-    "Notes": "String"
+  "name": "Crunches",
+  "category": "Core",
+  "setsReps": "3 sets of 30",
+  "progress": [{
+    "lastDate": "Date",
+    "weight": "String",
+    "notes": "String"
   }]
 }
 {
-  "Name": "Triceps Pulldown",
-  "Category": "Arms",
-  "SetsReps": "4 sets of 10 reps",
-  "Progress": [{
-    "Last date": "Date",
-    "Weight": "String",
-    "Notes": "String"
+  "name": "Barbell Squat",
+  "category": "Lower Body",
+  "setsReps": "4 sets of 5 reps",
+  "progress": [{
+    "lastDate": "Date",
+    "weight": "String",
+    "notes": "String"
   }]
 }
 {
-  "Name": "Seated Row",
-  "Category": "Back",
-  "SetsReps": "4 sets of 12",
-  "Progress": [{
-    "Last date": "Date",
-    "Weight": "String",
-    "Notes": "String"
+  "name": "Triceps Pulldown",
+  "category": "Arms",
+  "setsReps": "4 sets of 10 reps",
+  "progress": [{
+    "lastDate": "Date",
+    "weight": "String",
+    "notes": "String"
   }]
 }
 {
-  "Name": "Lat Pulldown",
-  "Category": "Back",
-  "SetsReps": "4 sets of 12",
-  "Progress": [{
-    "Last date": "Date",
-    "Weight": "String",
-    "Notes": "String"
+  "name": "Seated Row",
+  "category": "Back",
+  "setsReps": "4 sets of 12",
+  "progress": [{
+    "lastDate": "Date",
+    "weight": "String",
+    "notes": "String"
   }]
 }
 {
-  "Name": "Barbell Deadlift",
-  "Category": "Total Body",
-  "SetsReps": "4 sets of 6",
-  "Progress": [{
-    "Last date": "Date",
-    "Weight": "String",
-    "Notes": "String"
+  "name": "Lat Pulldown",
+  "category": "Back",
+  "setsReps": "4 sets of 12",
+  "progress": [{
+    "lastDate": "Date",
+    "weight": "String",
+    "notes": "String"
+  }]
+}
+{
+  "name": "Barbell Deadlift",
+  "category": "Total Body",
+  "setsReps": "4 sets of 6",
+  "progress": [{
+    "lastDate": "Date",
+    "weight": "String",
+    "notes": "String"
   }]
 }
