@@ -9,6 +9,7 @@ const {DATABASE_URL, PORT} = require('./config');
 const {Workouts} = require('./models');
 
 const app = express();
+app.use(express.static('public'));
 
 app.use(morgan('common'));
 app.use(bodyParser.json());
@@ -20,7 +21,7 @@ app.get('/workouts', (req, res) => {
     .find()
     .exec()
     .then(posts => {
-      res.json(posts.map(post => post.apiRepr()));
+      res.json(posts);
     })
     .catch(err => {
       console.error(err);
@@ -32,7 +33,7 @@ app.get('/workouts/:id', (req, res) => {
   Workouts
     .findById(req.params.id)
     .exec()
-    .then(post => res.json(post.apiRepr()))
+    .then(post => res.json(post))
     .catch(err => {
       console.error(err);
       res.status(500).json({error: 'something went horribly awry'});
@@ -40,7 +41,7 @@ app.get('/workouts/:id', (req, res) => {
 });
 
 app.post('/workouts', (req, res) => {
-  const requiredFields = ['Name', 'Category', 'Description', 'SetsReps', 'Progress'];
+  const requiredFields = ['name', 'category'];
   for (let i=0; i<requiredFields.length; i++) {
     const field = requiredFields[i];
     if (!(field in req.body)) {
@@ -53,15 +54,13 @@ app.post('/workouts', (req, res) => {
   Workouts
     .create({
       name: req.body.name,
-      category: req.body.category,
-      description: req.body.description
+      category: req.body.category
     })
-    .then(workout => res.status(201).json(workout.apiRepr()))
+    .then(workout => res.status(201).json(workout))
     .catch(err => {
-        console.error(err);
-        res.status(500).json({error: 'Something went wrong'});
+      console.error(err);
+      res.status(500).json({error: 'Something went wrong'});
     });
-
 });
 
 app.put('/workouts/:id', (req, res) => {
@@ -82,7 +81,7 @@ app.put('/workouts/:id', (req, res) => {
   Workouts
     .findByIdAndUpdate(req.params.id, {$set: updated}, {new: true})
     .exec()
-    .then(updatedPost => res.status(201).json(updatedPost.apiRepr()))
+    .then(updatedPost => res.status(201).json(updatedPost))
     .catch(err => res.status(500).json({message: 'Something went wrong'}));
 });
 
