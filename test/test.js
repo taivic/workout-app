@@ -21,9 +21,8 @@ describe('Workouts', function() {
         res.should.be.json;
         res.body.should.be.a('array');
         res.body.length.should.be.at.least(1);
-        const expectedKeys = ['id', 'name', 'category', 'setsReps'];
+        const expectedKeys = ['_id', 'name', 'category', 'setsReps'];
         res.body.forEach(function(item) {
-          console.log(item);
           item.should.be.a('object');
           item.should.include.keys(expectedKeys);
         });
