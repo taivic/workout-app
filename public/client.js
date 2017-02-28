@@ -1,3 +1,28 @@
+var getData = function(tags) {
+    $.ajax({
+        url: 'http://localhost:8080/workouts',
+        type: 'get',
+        dataType: 'jsonp',
+        jsonp: 'jsonp', // mongod is expecting the parameter name to be called "jsonp"
+        success: showResults(data),
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            console.log('error', errorThrown);
+        }
+    })
+}
+
+function showResults(result) { //this waits for the ajax to return with a succesful promise object
+    var searchResults = showSearchResults(request.tagged, result.items.length);
+
+    $('.search-results').html(searchResults);
+    //$.each is a higher order function. It takes an array and a function as an argument.
+    //The function is executed once for each item in the array.
+    $.each(result.items, function(i, item) { 
+        var question = showQuestion(item);
+        $('.results').append(question);
+    });
+}
+
 $(document).ready(function() {
 	
 	var workouts = [];
@@ -10,11 +35,12 @@ $(document).ready(function() {
     	var lastDate = $("#lastDate").val();
    		var weight = $("#weight").val();
     	var notes = $("#Notes").val();
+        //ajax call- post
 
-    $("#workoutList").append("<a><li class='workoutName text-info'>" + 
-      name + "</li></a>");
+        $("#workoutList").append("<a><li class='workoutName text-info'>" + 
+        name + "</li></a>");
 
-    var Workout = function(name, category, setsReps, lastDate, weight, notes) {
+        var Workout = function(name, category, setsReps, lastDate, weight, notes) {
     	this.name = name;
     	this.category = category;
     	this.setsReps = setsReps;
@@ -41,6 +67,7 @@ $(document).ready(function() {
         selectedWorkout.lastDate + "<br>" +
         selectedWorkout.weight + "<br>" +
         selectedWorkout.notes + "</p>");
+
   })
 
   function resetForm() {
