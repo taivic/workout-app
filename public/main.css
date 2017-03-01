@@ -5,3 +5,7 @@ h1 {
 .workoutName {
   cursor: pointer;
 }
+
+.deleteButton {
+	float: right;
+}
