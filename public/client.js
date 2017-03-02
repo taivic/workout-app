@@ -11,8 +11,8 @@ var getData = function() {
         error: function(error) {
             $("#results").append("Error")
         }
-    })
-}
+    });
+};
 
 var workouts = [];
 
@@ -20,7 +20,6 @@ $(document).ready(function() {
 
     //AJAX GET
     getData();
-
 
 	$("#workoutForm").submit(function(e) {
     	e.preventDefault();
@@ -48,14 +47,6 @@ $(document).ready(function() {
         $("#workoutList").append("<a><li class='workoutName text-info'>" + 
         name + "</li></a>");
 
-        $(".workoutName").hover(
-            function() {
-                $(this).append($("<span class='deleteButton'><button class='btn btn-danger btn-xs'>Delete</button></span>"));
-            }, function() {
-                $( this ).find( "span:last" ).remove();
-            }
-        );
-
         var Workout = function(name, category, setsReps, lastDate, weight, notes) {
         	this.name = name;
         	this.category = category;
@@ -64,7 +55,6 @@ $(document).ready(function() {
         	this.weight = weight;
         	this.notes = notes;
         }
-
     
         var newWorkout = new Workout(name, category, setsReps, lastDate, weight, notes);
         workouts.push(newWorkout);
@@ -73,7 +63,24 @@ $(document).ready(function() {
         console.log(workouts);
     });
 
-    $(document).on("click", ".workoutName", function() {
+    function resetForm() {
+        $("#name").val("");
+        $("#category").val("");
+        $("#setsReps").val("");
+        $("#lastDate").val("");
+        $("#weight").val("");
+        $("#notes").val("");
+    }
+
+    function findWorkout(name) {
+        for (var i=0; i<workouts.length; i++) {
+            if (workouts[i].name === name) {
+                return workouts[i];
+            }
+        }
+    }
+
+    $(document).on("click", ".showButton", function() {
         var selectedWorkout = findWorkout($(this).text());
         console.log(selectedWorkout);
         $("#workoutDetail").empty();
@@ -84,23 +91,54 @@ $(document).ready(function() {
             selectedWorkout.lastDate + "<br>" +
             selectedWorkout.weight + "<br>" +
             selectedWorkout.notes + "</p>");
+    });
 
-    })
+    $(document).on("mouseenter", ".workoutName", function() {
+        $(this).append(
+            $("<span class='deleteButton'><button class='btn btn-danger btn-xs'>Delete</button></span>"),
+            $("<span class='editButton'><button class='btn btn-warning btn-xs'>Edit</button></span>"),
+            $("<span class='showButton'><button class='btn btn-success btn-xs'>Show</button></span>")
+        );
+    });
 
-    function resetForm() {
-        $("#name").val("");
-        $("#category").val("");
-        $("#setsReps").val("");
-        $("#lastDate").val("");
-        $("#weight").val("");
-        $("#notes").val("");
-    }
-})
+    $(document).on("mouseleave", ".workoutName", function() {
+        $( this ).find(".btn-xs").remove();
+    });
 
-    function findWorkout(name) {
-        for (var i=0; i<workouts.length; i++) {
-            if (workouts[i].name === name) {
-                return workouts[i];
+    $(document).on("click", ".editButton", function() {
+        //AJAX put
+        $.ajax({
+            url: 'http://localhost:8080/workouts/:id',
+            type: 'put',
+            dataType: 'json',
+            jsonp: 'json',
+            success: function(result) {
+                var output = result.name
+                $("#results").append(output);
+            },
+            error: function(error) {
+                $("#results").append("Error")
             }
-        }
-    }
+        });
+    });
+
+    $(document).on("click", ".deleteButton", function() {
+        //AJAX delete
+        $.ajax({
+            url: 'http://localhost:8080/workouts/:id',
+            type: 'delete',
+            dataType: 'json',
+            jsonp: 'json',
+            success: function(result) {
+                var output = result.name
+                $("#results").append(output);
+            },
+            error: function(error) {
+                $("#results").append("Error")
+            }
+        });
+        $(this).find(".workoutName text-info").remove();
+    });
+});
+
+    

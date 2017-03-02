@@ -6,6 +6,6 @@ h1 {
   cursor: pointer;
 }
 
-.deleteButton {
+.btn-xs {
 	float: right;
 }
