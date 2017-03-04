@@ -1,13 +1,13 @@
 const mongoose = require('mongoose');
 
 const workoutSchema = mongoose.Schema({
-  Name: {type: String, required: true},
-  Category: {type: String, required: true},
-  SetsReps: {type: String},
-  Progress: [{
-    LastDate: {type: Date},
-    Weight: {type: String},
-    Notes: {type: String}
+  name: {type: String, required: true},
+  category: {type: String, required: true},
+  setsReps: {type: String},
+  progress: [{
+    lastDate: {type: Date},
+    weight: {type: String},
+    notes: {type: String}
   }]
 });
 

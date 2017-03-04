@@ -23,23 +23,28 @@ $(document).ready(function() {
 
 	$("#workoutForm").submit(function(e) {
     	e.preventDefault();
-    	var name = $("#name").val();
-    	var category = $("#category").val();
-    	var setsReps = $("#setsReps").val();
-    	var lastDate = $("#lastDate").val();
-   		var weight = $("#weight").val();
-    	var notes = $("#Notes").val();
+        var workout = {};
+    	workout.name = $("#name").val();
+    	workout.category = $("#category").val();
+    	workout.setsReps = $("#setsReps").val();
+    	workout.lastDate = $("#lastDate").val();
+   		workout.weight = $("#weight").val();
+    	workout.notes = $("#notes").val();
+        console.log(workout);
 
         $.ajax({     
             url: "http://localhost:8080/workouts",
             method: "POST",
             contentType: "application/json",
+            data: JSON.stringify(workout),
             dataType: "json",
             success: function(result) {
                 var output = result.name
                 $("#results").append(output);
             },
             error: function(error) {
+
+                
                 $("#results").append("Error")
             }
         });
