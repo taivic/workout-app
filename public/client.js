@@ -1,12 +1,18 @@
 var getData = function() {
+    console.log('Retrieving workouts');
+    var output;
     $.ajax({
         url: 'http://localhost:8080/workouts',
         type: 'get',
         dataType: 'json',
         jsonp: 'json',
-        success: function(result) {
-            var output = result.name
-            $("#results").append(output);
+        success: function(data) {
+            console.log(data);
+            for (var i = 0; i < data.length; i++) {
+                output = data[i].name;
+                console.log(output);
+                $(".workoutList").append("<a><li class='workoutName text-info'>" + output + "</li></a>");
+            }           
         },
         error: function(error) {
             $("#results").append("Error")
@@ -40,19 +46,17 @@ $(document).ready(function() {
             dataType: "json",
             success: function(result) {
                 var output = result.name
-                $("#results").append(output);
+                $(".workoutList").append("<a><li class='workoutName text-info'>" + output + "</li></a>");
             },
             error: function(error) {
-
-                
-                $("#results").append("Error")
+                $(".workoutList").append("Error")
             }
         });
 
-        $("#workoutList").append("<a><li class='workoutName text-info'>" + 
+      /*  $(".workoutList").append("<a><li class='workoutName text-info'>" + 
         name + "</li></a>");
-
-        var Workout = function(name, category, setsReps, lastDate, weight, notes) {
+*/
+        /*var Workout = function(name, category, setsReps, lastDate, weight, notes) {
         	this.name = name;
         	this.category = category;
         	this.setsReps = setsReps;
@@ -63,9 +67,8 @@ $(document).ready(function() {
     
         var newWorkout = new Workout(name, category, setsReps, lastDate, weight, notes);
         workouts.push(newWorkout);
-
+*/
         resetForm();
-        console.log(workouts);
     });
 
     function resetForm() {
@@ -85,24 +88,22 @@ $(document).ready(function() {
         }
     }
 
-    $(document).on("click", ".showButton", function() {
-        var selectedWorkout = findWorkout($(this).text());
+    $(document).on("click", ".workoutList", function() {
+        var selectedWorkout = $(this).text();
         console.log(selectedWorkout);
-        $("#workoutDetail").empty();
+        /*$("#workoutDetail").empty();
         $("#workoutDetail").append("<p>" + 
             selectedWorkout.name + "<br>" +
             selectedWorkout.category + "<br>" +
             selectedWorkout.setsReps + "<br>" +
             selectedWorkout.lastDate + "<br>" +
             selectedWorkout.weight + "<br>" +
-            selectedWorkout.notes + "</p>");
+            selectedWorkout.notes + "</p>");*/
     });
 
     $(document).on("mouseenter", ".workoutName", function() {
         $(this).append(
-            $("<span class='deleteButton'><button class='btn btn-danger btn-xs'>Delete</button></span>"),
-            $("<span class='editButton'><button class='btn btn-warning btn-xs'>Edit</button></span>"),
-            $("<span class='showButton'><button class='btn btn-success btn-xs'>Show</button></span>")
+            $("<span class='deleteButton'><button class='btn btn-danger btn-xs'>Delete</button></span>")
         );
     });
 
@@ -110,7 +111,7 @@ $(document).ready(function() {
         $( this ).find(".btn-xs").remove();
     });
 
-    $(document).on("click", ".editButton", function() {
+   /* $(document).on("click", ".editButton", function() {
         //AJAX put
         $.ajax({
             url: 'http://localhost:8080/workouts/:id',
@@ -125,24 +126,20 @@ $(document).ready(function() {
                 $("#results").append("Error")
             }
         });
-    });
+    });*/
 
-    $(document).on("click", ".deleteButton", function() {
+    $(document).on("click", ".deleteButton", function(workout) {
         //AJAX delete
         $.ajax({
-            url: 'http://localhost:8080/workouts/:id',
+            url: 'http://localhost:8080/workouts/' + workout.id,
             type: 'delete',
-            dataType: 'json',
-            jsonp: 'json',
             success: function(result) {
-                var output = result.name
-                $("#results").append(output);
+                $(this).find(".workoutName text-info").remove();
             },
             error: function(error) {
                 $("#results").append("Error")
             }
         });
-        $(this).find(".workoutName text-info").remove();
     });
 });
 
