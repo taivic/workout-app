@@ -10,8 +10,8 @@ var getData = function() {
             console.log(data);
             for (var i = 0; i < data.length; i++) {
                 output = data[i].name;
-                console.log(output);
-                $(".workoutList").append("<a><li class='workoutName text-info'>" + output + "</li></a>");
+                console.log(output);//to show list of names
+                $(".workoutList").append("<a><li class='workoutName text-info' data-id='"+data[i]._id+"'>" + output + "</li></a>");
             }           
         },
         error: function(error) {
@@ -19,6 +19,30 @@ var getData = function() {
         }
     });
 };
+
+/*function findWorkout(name) {
+    for (var i=0; i<workouts.length; i++) {
+        if (workouts[i].name === name) {
+            return workouts[i];
+        }
+    }
+}*/
+
+/*var listDetails = function() {
+    $(document).on("click", ".workoutName", function() {
+        var selectedWorkout = findWorkout($(this).text());
+        console.log(selectedWorkout);
+        $("#workoutDetail").empty();
+        $("#workoutDetail").append("<p>" + 
+            selectedWorkout.name + "<br>" +
+            selectedWorkout.category + "<br>" +
+            selectedWorkout.setsReps + "<br>" +
+            selectedWorkout.lastDate + "<br>" +
+            selectedWorkout.weight + "<br>" +
+            selectedWorkout.notes + "</p>");
+    });
+}
+*/
 
 var workouts = [];
 
@@ -45,7 +69,7 @@ $(document).ready(function() {
             data: JSON.stringify(workout),
             dataType: "json",
             success: function(result) {
-                var output = result.name
+                var output = result.name;
                 $(".workoutList").append("<a><li class='workoutName text-info'>" + output + "</li></a>");
             },
             error: function(error) {
@@ -53,10 +77,7 @@ $(document).ready(function() {
             }
         });
 
-      /*  $(".workoutList").append("<a><li class='workoutName text-info'>" + 
-        name + "</li></a>");
-*/
-        /*var Workout = function(name, category, setsReps, lastDate, weight, notes) {
+        var Workout = function(name, category, setsReps, lastDate, weight, notes) {
         	this.name = name;
         	this.category = category;
         	this.setsReps = setsReps;
@@ -67,7 +88,7 @@ $(document).ready(function() {
     
         var newWorkout = new Workout(name, category, setsReps, lastDate, weight, notes);
         workouts.push(newWorkout);
-*/
+
         resetForm();
     });
 
@@ -80,35 +101,34 @@ $(document).ready(function() {
         $("#notes").val("");
     }
 
-    function findWorkout(name) {
-        for (var i=0; i<workouts.length; i++) {
-            if (workouts[i].name === name) {
-                return workouts[i];
+    function findWorkout(id) {
+        $.ajax({
+            url: 'http://localhost:8080/workouts/' + id,
+            type: 'get',
+            dataType: 'json',
+            jsonp: 'json',
+            success: function(data) {
+                console.log(data);
+                return data;          
+            },
+            error: function(error) {
+                $("#results").append("Error")
             }
-        }
-    }
+        });
+    };
 
-    $(document).on("click", ".workoutList", function() {
-        var selectedWorkout = $(this).text();
-        console.log(selectedWorkout);
-        /*$("#workoutDetail").empty();
+    $(document).on("click", ".workoutName", function() {
+        console.log("Clicked");
+        var selectedWorkout = findWorkout($(this).attr("data-id"));
+        console.log(selectedWorkout); //will return id
+        $("#workoutDetail").empty();
         $("#workoutDetail").append("<p>" + 
             selectedWorkout.name + "<br>" +
             selectedWorkout.category + "<br>" +
             selectedWorkout.setsReps + "<br>" +
             selectedWorkout.lastDate + "<br>" +
             selectedWorkout.weight + "<br>" +
-            selectedWorkout.notes + "</p>");*/
-    });
-
-    $(document).on("mouseenter", ".workoutName", function() {
-        $(this).append(
-            $("<span class='deleteButton'><button class='btn btn-danger btn-xs'>Delete</button></span>")
-        );
-    });
-
-    $(document).on("mouseleave", ".workoutName", function() {
-        $( this ).find(".btn-xs").remove();
+            selectedWorkout.notes + "</p>");
     });
 
    /* $(document).on("click", ".editButton", function() {
