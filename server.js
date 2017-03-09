@@ -54,7 +54,8 @@ app.post('/workouts', (req, res) => {
   Workouts
     .create({
       name: req.body.name,
-      category: req.body.category
+      category: req.body.category,
+      setsReps: req.body.setsReps
     })
     .then(workout => res.status(201).json(workout))
     .catch(err => {

@@ -109,7 +109,7 @@ $(document).ready(function() {
             jsonp: 'json',
             success: function(data) {
                 console.log(data);
-                return data;          
+                showDetails(data);
             },
             error: function(error) {
                 $("#results").append("Error")
@@ -117,18 +117,20 @@ $(document).ready(function() {
         });
     };
 
-    $(document).on("click", ".workoutName", function() {
-        console.log("Clicked");
-        var selectedWorkout = findWorkout($(this).attr("data-id"));
-        console.log(selectedWorkout); //will return id
+     var showDetails = function(selectedWorkout){
         $("#workoutDetail").empty();
         $("#workoutDetail").append("<p>" + 
             selectedWorkout.name + "<br>" +
             selectedWorkout.category + "<br>" +
             selectedWorkout.setsReps + "<br>" +
-            selectedWorkout.lastDate + "<br>" +
-            selectedWorkout.weight + "<br>" +
-            selectedWorkout.notes + "</p>");
+            selectedWorkout.progress[0].notes + "<br>" +
+            selectedWorkout.progress[0].weight + "<br>" +
+            selectedWorkout.progress.lastDate + "</p>");
+     }
+
+    $(document).on("click", ".workoutName", function() {
+        console.log("Clicked");
+        findWorkout($(this).attr("data-id"));        
     });
 
    /* $(document).on("click", ".editButton", function() {
