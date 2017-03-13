@@ -55,7 +55,10 @@ app.post('/workouts', (req, res) => {
     .create({
       name: req.body.name,
       category: req.body.category,
-      setsReps: req.body.setsReps
+      setsReps: req.body.setsReps,
+      lastDate: req.body.lastDate,
+      weight: req.body.weight,
+      notes: req.body.notes
     })
     .then(workout => res.status(201).json(workout))
     .catch(err => {

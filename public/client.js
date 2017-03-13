@@ -11,8 +11,14 @@ var getData = function() {
             for (var i = 0; i < data.length; i++) {
                 output = data[i].name;
                 console.log(output);//to show list of names
-                $(".workoutList").append("<a><li class='workoutName text-info' data-id='"+data[i]._id+"'>" + output + "</li></a>");
-            }           
+                $(".workoutList").append("<li class='workoutName text-info' data-id='"+data[i]._id+"'><a><span class='workoutSpecific'>" + 
+                    output + 
+                    "</span></a>" + 
+                    "<button class='temp delete btn btn-danger btn-xs'>Delete</button>" +
+                    "<button class='temp edit btn btn-warning btn-xs'>Edit</button>" +
+                    "</li>"
+                );
+            }                           
         },
         error: function(error) {
             $("#results").append("Error")
@@ -20,36 +26,13 @@ var getData = function() {
     });
 };
 
-/*function findWorkout(name) {
-    for (var i=0; i<workouts.length; i++) {
-        if (workouts[i].name === name) {
-            return workouts[i];
-        }
-    }
-}*/
-
-/*var listDetails = function() {
-    $(document).on("click", ".workoutName", function() {
-        var selectedWorkout = findWorkout($(this).text());
-        console.log(selectedWorkout);
-        $("#workoutDetail").empty();
-        $("#workoutDetail").append("<p>" + 
-            selectedWorkout.name + "<br>" +
-            selectedWorkout.category + "<br>" +
-            selectedWorkout.setsReps + "<br>" +
-            selectedWorkout.lastDate + "<br>" +
-            selectedWorkout.weight + "<br>" +
-            selectedWorkout.notes + "</p>");
-    });
-}
-*/
-
 var workouts = [];
 
 $(document).ready(function() {
 
     //AJAX GET
     getData();
+    $(".update").hide();
 
 	$("#workoutForm").submit(function(e) {
     	e.preventDefault();
@@ -70,7 +53,13 @@ $(document).ready(function() {
             dataType: "json",
             success: function(result) {
                 var output = result.name;
-                $(".workoutList").append("<a><li class='workoutName text-info'>" + output + "</li></a>");
+                $(".workoutList").append("<li class='workoutName text-info' data-id='"+result._id+"'><a><span class='workoutSpecific'>" + 
+                    output + 
+                    "</span></a>" + 
+                    "<button class='temp delete btn btn-danger btn-xs'>Delete</button>" +
+                    "<button class='temp edit btn btn-warning btn-xs'>Edit</button>" +
+                    "</li>"
+                );
             },
             error: function(error) {
                 $(".workoutList").append("Error")
@@ -117,46 +106,93 @@ $(document).ready(function() {
         });
     };
 
-     var showDetails = function(selectedWorkout){
+    var showDetails = function(selectedWorkout){
         $("#workoutDetail").empty();
         $("#workoutDetail").append("<p>" + 
             selectedWorkout.name + "<br>" +
             selectedWorkout.category + "<br>" +
             selectedWorkout.setsReps + "<br>" +
-            selectedWorkout.progress[0].notes + "<br>" +
-            selectedWorkout.progress[0].weight + "<br>" +
-            selectedWorkout.progress.lastDate + "</p>");
+            selectedWorkout.notes + "<br>" +
+            selectedWorkout.weight + "<br>" +
+            selectedWorkout.lastDate.slice(0, 10) + "</p>");
      }
 
-    $(document).on("click", ".workoutName", function() {
+    $(document).on("click", ".workoutSpecific", function() {
         console.log("Clicked");
-        findWorkout($(this).attr("data-id"));        
+        console.log($(this).closest("li").attr("data-id"));
+        findWorkout($(this).closest("li").attr("data-id"));        
     });
 
-   /* $(document).on("click", ".editButton", function() {
-        //AJAX put
+    $(document).on('mouseenter', '.workoutName', function() {
+        $(this).find("button").removeClass("temp");
+    });
+    $(document).on('mouseleave', '.workoutName', function() {
+        $(this).find("button").addClass("temp");
+    });
+
+    var putId;
+
+    $(document).on("click", ".edit", function() {
+        //GET info from workoutID
+        putId = $(this).parent().attr("data-id");
+        console.log(putId);
+        //use workoutID to populate input fields
+        function findWorkout(putId) {
+            $.ajax({
+                url: 'http://localhost:8080/workouts/' + putId,
+                type: 'get',
+                dataType: 'json',
+                jsonp: 'json',
+                success: function(data) {
+                    console.log(data);
+                     //populate inputs with object
+                    $("#name").val(data.name); 
+                    $("#category").val(data.category);
+                    $("#setsReps").val(data.setsReps);
+                    $("#notes").val(data.notes);
+                    $("#weight").val(data.weight);
+                    $("#lastDate").val(data.lastDate);
+                    //show update button
+                    $(".add").hide();
+                    $(".update").show();
+                },
+                error: function(error) {
+                    $("#results").append("Error")
+                }
+            });
+        };
+        
+        findWorkout(putId);
+    });
+        
+    //make ajax PUT call when update is clicked
+     $(document).on("click", ".update", function() {
+
         $.ajax({
-            url: 'http://localhost:8080/workouts/:id',
+            url: 'http://localhost:8080/workouts/' + putId,
             type: 'put',
             dataType: 'json',
             jsonp: 'json',
             success: function(result) {
-                var output = result.name
-                $("#results").append(output);
+                console.log("update is made");
             },
             error: function(error) {
                 $("#results").append("Error")
             }
         });
-    });*/
+    });
 
-    $(document).on("click", ".deleteButton", function(workout) {
+    $(document).on("click", ".delete", function(workout) {
         //AJAX delete
+        var workoutId = $(this).parent().attr("data-id");
+        console.log(workoutId);
+
         $.ajax({
-            url: 'http://localhost:8080/workouts/' + workout.id,
+            url: 'http://localhost:8080/workouts/' + workoutId,
             type: 'delete',
             success: function(result) {
-                $(this).find(".workoutName text-info").remove();
+                $(this).closest("li").remove();
+                location.reload();
             },
             error: function(error) {
                 $("#results").append("Error")

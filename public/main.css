@@ -9,3 +9,7 @@ h1 {
 .btn-xs {
 	float: right;
 }
+
+.temp {
+	display: none;
+}
