@@ -75,7 +75,7 @@ app.put('/workouts/:id', (req, res) => {
   }
 
   const updated = {};
-  const updateableFields = ['Progress'];
+  const updateableFields = ['name', 'category', 'setsReps', 'lastDate', 'weight', 'notes'];
   updateableFields.forEach(field => {
     if (field in req.body) {
       updated[field] = req.body[field];

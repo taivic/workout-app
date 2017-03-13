@@ -151,7 +151,7 @@ $(document).ready(function() {
                     $("#setsReps").val(data.setsReps);
                     $("#notes").val(data.notes);
                     $("#weight").val(data.weight);
-                    $("#lastDate").val(data.lastDate);
+                    $("#lastDate").val(data.lastDate.slice(0, 10));
                     //show update button
                     $(".add").hide();
                     $(".update").show();
@@ -161,16 +161,26 @@ $(document).ready(function() {
                 }
             });
         };
-        
+
         findWorkout(putId);
     });
         
     //make ajax PUT call when update is clicked
      $(document).on("click", ".update", function() {
+        console.log(putId);
+        var workout = {};
+        workout.name = $("#name").val();
+        workout.category = $("#category").val();
+        workout.setsReps = $("#setsReps").val();
+        workout.lastDate = $("#lastDate").val();
+        workout.weight = $("#weight").val();
+        workout.notes = $("#notes").val();
+        console.log(workout);
 
         $.ajax({
             url: 'http://localhost:8080/workouts/' + putId,
             type: 'put',
+            data: JSON.stringify(workout),
             dataType: 'json',
             jsonp: 'json',
             success: function(result) {
@@ -186,7 +196,6 @@ $(document).ready(function() {
         //AJAX delete
         var workoutId = $(this).parent().attr("data-id");
         console.log(workoutId);
-
         $.ajax({
             url: 'http://localhost:8080/workouts/' + workoutId,
             type: 'delete',
