@@ -1,15 +1,14 @@
 h1 {
-	font-family: font-family: 'Barrio', cursive;
+	font-family: 'Carter One', cursive;
+	text-align: left;
+	font-size: 62px;
 }
 
 .workoutName {
   cursor: pointer;
 }
 
-.btn-xs {
-	float: right;
-}
-
 .temp {
 	display: none;
 }
+

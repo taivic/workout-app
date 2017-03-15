@@ -1,5 +1,4 @@
 var getData = function() {
-    console.log('Retrieving workouts');
     var output;
     $.ajax({
         url: 'http://localhost:8080/workouts',
@@ -7,10 +6,8 @@ var getData = function() {
         dataType: 'json',
         jsonp: 'json',
         success: function(data) {
-            console.log(data);
             for (var i = 0; i < data.length; i++) {
                 output = data[i].name;
-                console.log(output);//to show list of names
                 $(".workoutList").append("<li class='workoutName text-info' data-id='"+data[i]._id+"'><a><span class='workoutSpecific'>" + 
                     output + 
                     "</span></a>" + 
@@ -21,7 +18,7 @@ var getData = function() {
             }                           
         },
         error: function(error) {
-            $("#results").append("Error")
+            $("#results").append("Error");
         }
     });
 };
@@ -29,7 +26,6 @@ var getData = function() {
 var workouts = [];
 
 $(document).ready(function() {
-
     //AJAX GET
     getData();
     $(".update").hide();
@@ -175,14 +171,15 @@ $(document).ready(function() {
         workout.lastDate = $("#lastDate").val();
         workout.weight = $("#weight").val();
         workout.notes = $("#notes").val();
+        workout.id = putId;
         console.log(workout);
 
         $.ajax({
             url: 'http://localhost:8080/workouts/' + putId,
             type: 'put',
+            contentType: 'application/json',
             data: JSON.stringify(workout),
             dataType: 'json',
-            jsonp: 'json',
             success: function(result) {
                 console.log("update is made");
             },

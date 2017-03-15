@@ -29,6 +29,8 @@ describe('Workouts', function() {
       });
   });
 
+  var newItemId;
+
   it('should add an item on POST', function() {
     const newItem = {
       name: 'Burpees',
@@ -42,9 +44,9 @@ describe('Workouts', function() {
         res.should.have.status(201);
         res.should.be.json;
         res.body.should.be.a('object');
-        res.body.should.include.keys('name', 'category', 'setsReps', 'progress');
-        res.body.id.should.not.be.null;
-        res.body.should.deep.equal(Object.assign(newItem, {id: res.body.id}));
+        res.body.should.include.keys('name', 'category', 'setsReps');
+        res.body._id.should.not.be.null;
+        newItemId = res.body._id;
       });
   });
 
@@ -53,29 +55,31 @@ describe('Workouts', function() {
       name: 'Military Press',
       category: 'Shoulder',
       setsReps: '4 sets of 10 reps',
+      lastDate: '2017-03-09',
+      weight: '5',
+      notes:'hard'
     };
     return chai.request(app)
       .get('/workouts')
       .then(function(res) {
-        updateData.id = res.body[1].id;
+        updateData.id = res.body[1]._id;
         return chai.request(app)
           .put(`/workouts/${updateData.id}`)
           .send(updateData);
       })
       .then(function(res) {
-        res.should.have.status(200);
+        res.should.have.status(201);
         res.should.be.json;
         res.body.should.be.a('object');
-        res.body.should.deep.equal(updateData);
       });
   });
 
   it('should delete items on DELETE', function() {
     return chai.request(app)
-      .get('/workouts')
+      .get('/workouts/' + newItemId)
       .then(function(res) {
         return chai.request(app)
-          .delete(`/workouts/${res.body[0].id}`);
+          .delete('/workouts/' + newItemId);
       })
       .then(function(res) {
         res.should.have.status(204);
