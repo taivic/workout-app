@@ -39,7 +39,6 @@ $(document).ready(function() {
     	workout.lastDate = $("#lastDate").val();
    		workout.weight = $("#weight").val();
     	workout.notes = $("#notes").val();
-        console.log(workout);
 
         $.ajax({     
             url: "/workouts",
@@ -93,7 +92,6 @@ $(document).ready(function() {
             dataType: 'json',
             jsonp: 'json',
             success: function(data) {
-                console.log(data);
                 showDetails(data);
             },
             error: function(error) {
@@ -114,8 +112,6 @@ $(document).ready(function() {
      }
 
     $(document).on("click", ".workoutSpecific", function() {
-        console.log("Clicked");
-        console.log($(this).closest("li").attr("data-id"));
         findWorkout($(this).closest("li").attr("data-id"));        
     });
 
@@ -131,7 +127,6 @@ $(document).ready(function() {
     $(document).on("click", ".edit", function() {
         //GET info from workoutID
         putId = $(this).parent().attr("data-id");
-        console.log(putId);
         //use workoutID to populate input fields
         function findWorkout(putId) {
             $.ajax({
@@ -140,7 +135,6 @@ $(document).ready(function() {
                 dataType: 'json',
                 jsonp: 'json',
                 success: function(data) {
-                    console.log(data);
                      //populate inputs with object
                     $("#name").val(data.name); 
                     $("#category").val(data.category);
@@ -163,7 +157,6 @@ $(document).ready(function() {
         
     //make ajax PUT call when update is clicked
      $(document).on("click", ".update", function() {
-        console.log(putId);
         var workout = {};
         workout.name = $("#name").val();
         workout.category = $("#category").val();
@@ -172,7 +165,6 @@ $(document).ready(function() {
         workout.weight = $("#weight").val();
         workout.notes = $("#notes").val();
         workout.id = putId;
-        console.log(workout);
 
         $.ajax({
             url: '/workouts/' + putId,
@@ -192,13 +184,12 @@ $(document).ready(function() {
     $(document).on("click", ".delete", function(workout) {
         //AJAX delete
         var workoutId = $(this).parent().attr("data-id");
-        console.log(workoutId);
         $.ajax({
             url: '/workouts/' + workoutId,
             type: 'delete',
             success: function(result) {
-                $(this).closest("li").remove();
-                location.reload();
+/*                $(this).closest("li").remove();
+*/                location.reload();
             },
             error: function(error) {
                 $("#results").append("Error")
