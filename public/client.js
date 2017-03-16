@@ -1,7 +1,7 @@
 var getData = function() {
     var output;
     $.ajax({
-        url: 'http://localhost:8080/workouts',
+        url: '/workouts',
         type: 'get',
         dataType: 'json',
         jsonp: 'json',
@@ -42,7 +42,7 @@ $(document).ready(function() {
         console.log(workout);
 
         $.ajax({     
-            url: "http://localhost:8080/workouts",
+            url: "/workouts",
             method: "POST",
             contentType: "application/json",
             data: JSON.stringify(workout),
@@ -88,7 +88,7 @@ $(document).ready(function() {
 
     function findWorkout(id) {
         $.ajax({
-            url: 'http://localhost:8080/workouts/' + id,
+            url: '/workouts/' + id,
             type: 'get',
             dataType: 'json',
             jsonp: 'json',
@@ -135,7 +135,7 @@ $(document).ready(function() {
         //use workoutID to populate input fields
         function findWorkout(putId) {
             $.ajax({
-                url: 'http://localhost:8080/workouts/' + putId,
+                url: '/workouts/' + putId,
                 type: 'get',
                 dataType: 'json',
                 jsonp: 'json',
@@ -175,7 +175,7 @@ $(document).ready(function() {
         console.log(workout);
 
         $.ajax({
-            url: 'http://localhost:8080/workouts/' + putId,
+            url: '/workouts/' + putId,
             type: 'put',
             contentType: 'application/json',
             data: JSON.stringify(workout),
@@ -194,7 +194,7 @@ $(document).ready(function() {
         var workoutId = $(this).parent().attr("data-id");
         console.log(workoutId);
         $.ajax({
-            url: 'http://localhost:8080/workouts/' + workoutId,
+            url: '/workouts/' + workoutId,
             type: 'delete',
             success: function(result) {
                 $(this).closest("li").remove();
