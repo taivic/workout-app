@@ -13,21 +13,7 @@ describe('Workouts', function() {
     return closeServer();
   });
 
-  it('should list items on GET', function() {
-    return chai.request(app)
-      .get('/workouts')
-      .then(function(res) {
-        res.should.have.status(200);
-        res.should.be.json;
-        res.body.should.be.a('array');
-        res.body.length.should.be.at.least(1);
-        const expectedKeys = ['_id', 'name', 'category', 'setsReps'];
-        res.body.forEach(function(item) {
-          item.should.be.a('object');
-          item.should.include.keys(expectedKeys);
-        });
-      });
-  });
+
 
   var newItemId;
 
@@ -71,6 +57,22 @@ describe('Workouts', function() {
         res.should.have.status(201);
         res.should.be.json;
         res.body.should.be.a('object');
+      });
+  });
+
+  it('should list items on GET', function() {
+    return chai.request(app)
+      .get('/workouts')
+      .then(function(res) {
+        res.should.have.status(200);
+        res.should.be.json;
+        res.body.should.be.a('array');
+        res.body.length.should.be.at.least(1);
+        const expectedKeys = ['_id', 'name', 'category', 'setsReps'];
+        res.body.forEach(function(item) {
+          item.should.be.a('object');
+          item.should.include.keys(expectedKeys);
+        });
       });
   });
 
