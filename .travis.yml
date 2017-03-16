@@ -6,6 +6,7 @@ deploy:
   provider: heroku
   api_key:
     secure: 02806104-080f-41fb-bb6f-26a8abe3815d
-  app: vast-escarpment-84132
+  app: afternoon-mesa-52099
+  skip_cleanup: true
   on:
     repo: taivic/workout-app
