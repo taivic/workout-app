@@ -48,7 +48,7 @@ describe('Workouts', function() {
     return chai.request(app)
       .get('/workouts')
       .then(function(res) {
-        updateData.id = res.body[1]._id;
+        updateData.id = res.body[0]._id;
         return chai.request(app)
           .put(`/workouts/${updateData.id}`)
           .send(updateData);
